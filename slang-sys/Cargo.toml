@@ -2,8 +2,11 @@
 name = "supasim-slang-sys"
 version = "0.0.1"
 edition = "2024"
+resolver = "3"
 license = "MIT OR Apache-2.0"
-publish = false
+description = "Very simple and rough slang bindings used in supasim-slang"
+repository = "https://github.com/supasim/slang-rs"
+homepage = "https://supasim.github.io/"
 
 [build-dependencies]
 bindgen = "0.71.1"
