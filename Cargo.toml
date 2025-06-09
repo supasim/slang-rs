@@ -1,14 +1,16 @@
 [package]
-name = "slang"
-version = "0.1.0"
+name = "supasim-slang"
+version = "0.0.1"
 edition = "2024"
+resolver = "3"
 license = "MIT OR Apache-2.0"
-publish = false
+description = "Slang bindings used by supasim, forked from FloatyMonkey's repo"
+repository = "https://github.com/supasim/slang-rs"
+readme = "README.md"
+homepage = "https://supasim.github.io/"
 
 [dependencies]
-slang-sys = { path = "slang-sys" }
+slang-sys = { package = "supasim-slang-sys", path = "slang-sys" }
 
 [workspace]
-members = [
-	"slang-sys"
-]
+members = ["slang-sys"]
