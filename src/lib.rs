@@ -94,13 +94,15 @@ impl CapabilityID {
 	}
 }
 
+/// # Safety
+/// Used internally.
 unsafe trait Interface: Sized {
 	type Vtable;
 	const IID: UUID;
 
 	#[inline(always)]
 	unsafe fn vtable(&self) -> &Self::Vtable {
-		unsafe { &**(self.as_raw() as *mut *mut Self::Vtable) }
+		unsafe { &**(self.as_raw::<*mut Self::Vtable>()) }
 	}
 
 	#[inline(always)]
@@ -113,7 +115,8 @@ unsafe trait Interface: Sized {
 		unsafe { std::mem::transmute(self) }
 	}
 }
-
+/// # Safety
+/// This trait shouldn't be implemented on types external to slang-rs.
 pub unsafe trait Downcast<T> {
 	fn downcast(&self) -> &T;
 }
@@ -314,7 +317,7 @@ impl Metadata {
 			self,
 			isParameterLocationUsed(category, space_index, register_index, &mut used)
 		);
-		succeeded(res).then(|| used)
+		succeeded(res).then_some(used)
 	}
 }
 
@@ -544,11 +547,11 @@ impl Module {
 	}
 
 	pub fn dependency_file_count(&self) -> i32 {
-		vcall!(self, getDependencyFileCount()) as i32
+		vcall!(self, getDependencyFileCount())
 	}
 
 	pub fn dependency_file_path(&self, index: i32) -> &str {
-		let path = vcall!(self, getDependencyFilePath(index as i32));
+		let path = vcall!(self, getDependencyFilePath(index));
 		unsafe { CStr::from_ptr(path).to_str().unwrap() }
 	}
 
