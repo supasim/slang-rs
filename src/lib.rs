@@ -55,8 +55,6 @@ impl std::fmt::Display for Error {
 	}
 }
 
-unsafe impl Send for Error {}
-unsafe impl Sync for Error {}
 impl std::error::Error for Error {}
 
 pub type Result<T> = std::result::Result<T, Error>;
@@ -122,6 +120,10 @@ pub unsafe trait Downcast<T> {
 
 #[repr(transparent)]
 pub struct IUnknown(std::ptr::NonNull<std::ffi::c_void>);
+// Send should be legal here
+unsafe impl Send for IUnknown {}
+// Sync is a no brainer, as they are immutable and don't need synchronization
+unsafe impl Sync for IUnknown {}
 
 unsafe impl Interface for IUnknown {
 	type Vtable = sys::ISlangUnknown__bindgen_vtable;
