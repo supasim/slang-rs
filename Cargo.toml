@@ -10,7 +10,7 @@ readme = "README.md"
 homepage = "https://supasim.github.io/"
 
 [dependencies]
-slang-sys = { package = "supasim-slang-sys", path = "slang-sys" }
+slang-sys = { package = "supasim-slang-sys", path = "slang-sys", version = "0.0.1" }
 
 [workspace]
 members = ["slang-sys"]
